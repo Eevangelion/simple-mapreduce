@@ -2,6 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: mapreduce-master
+  namespace: mapreduce
 spec:
   selector:
     app: mapreduce-master
@@ -14,23 +15,22 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: mapreduce-master
+  namespace: mapreduce
   labels:
     app: mapreduce-master
 spec:
   containers:
   - name: mapreduce-master
-    image: temakozyrev/mapreduce:latest
+    image: mapreduce-master:latest
     ports:
     - containerPort: 8080
-      name: mapper
     env:
-    - name: TYPE
-      value: "MASTER"
     - name: MAPPER_HOST
       value: "mappers"
     - name: REDUCER_HOST
       value: "reducers"
     - name: MAPPER_PORT
-      value: "8080"
+      value: "8081"
     - name: REDUCER_PORT
-      value: "8080"
+      value: "8082"
+    imagePullPolicy: Never
